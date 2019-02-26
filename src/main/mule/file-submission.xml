@@ -124,6 +124,21 @@ output application/json
         </error-handler>
     </flow>
     <flow name="post:\process:multipart\form-data:file-submission-config">
+		<ee:transform doc:name="Transform Message" doc:id="4c43e152-1ce1-431b-a214-a84f09029698" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="base64Image" ><![CDATA[%dw 2.0
+output application/java
+
+import java!com::mulesoft::example::JPEGUtils
+
+var image = payload.parts.file1.content
+
+---
+JPEGUtils::CompressJpegImage(payload.parts.file1.content)]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="418107ab-ea3b-4404-bbe9-086f8145b229" />
 		<ee:transform doc:name="Prepare Document Request" doc:id="56f99167-59ae-4eba-b09d-871b729c916c" >
 			<ee:message >
@@ -141,12 +156,43 @@ import * from dw::core::Binaries
 		ns0#contentType: payload.parts.file1.headers.'Content-Type',
 		ns0#filename: payload.parts.file1.headers.'Content-Disposition'.filename,
 		ns0#fileEncoding: 'base64',
-		ns0#file1: toBase64(payload.parts.file1.content)
+		ns0#file1: vars.base64Image
 	}
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<document-processing-api:create-docuement doc:name="Create docuement" doc:id="9872781f-ed78-48c9-a156-fa15d0b0d217" config-ref="Document_Processing_API_Config" client-id="${secure::document.client_id}" client-secret="${secure::document.client_secret}"/>
+		<try doc:name="Try" doc:id="707f9025-3c7b-4511-b4eb-89632db2cacc" >
+			<document-processing-api:create-docuement doc:name="Create docuement" doc:id="9872781f-ed78-48c9-a156-fa15d0b0d217" config-ref="Document_Processing_API_Config" client-id="${secure::document.client_id}" client-secret="${secure::document.client_secret}" />
+			<ee:transform doc:name="Transform Message" doc:id="0ab4e661-a101-435d-afae-95dd569a4421" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="result" ><![CDATA[%dw 2.0
+output application/java
+---
+'Your document has been submitted']]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fcfd690d-3f1e-46d1-bdbc-29528ded7c17" >
+					<ee:transform doc:name="Transform Message" doc:id="c3aa3ee0-fcc9-43fa-be01-f55b319660e6" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="result" ><![CDATA[%dw 2.0
+output application/java
+---
+'There was an error. Please try again']]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		<parse-template doc:name="Parse Template" doc:id="351a418d-2f6d-41ab-b562-c28fc5d959de" location="result.html" />
     </flow>
     <flow name="get:\form:file-submission-config">
