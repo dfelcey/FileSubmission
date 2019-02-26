@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>File Submission Form</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    font-family: inherit;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<h2>Document for submission</h2>
+		<form action="process" method="POST"
+			enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="email">Email Address</label> <input type="email"
+					class="form-control" id="email" placeholder="Enter email"
+					name="email">
+			</div>
+			<div class="form-group">
+				<label for="file">File</label>
+				<div class="input-group input-file" name="Fichier1">
+					<input type="text" class="form-control" placeholder='Choose a file...' /> 
+					<span class="input-group-btn">
+						<button class="btn btn-default btn-choose" type="button">Choose</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="exampleFormControlPhoto1">Or Take a Photo of the Document&nbsp;&nbsp;</label>
+				<span class="btn btn-default btn-file mb-0 glyphicon glyphicon-camera" aria-hidden="true">
+     <input type="file" name="file1" accept="image/*" capture="camera">
+</span>
+
+			</div>
+			<div class="mx-auto" style="width: 200px;">
+</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</body>
+</html>

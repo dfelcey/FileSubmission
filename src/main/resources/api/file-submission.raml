@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: File Submission
+
+/form:
+  get:
+    responses:
+      200:
+        body:
+          text/html:
+            displayName: The form
+/process: 
+  post: 
+    body:
+      multipart/form-data:
+        properties: 
+          email: 
+            description: Email address to identify the user
+            required: true 
+            type: string
+            pattern: ^.+@.+\..+$
+          file1: 
+            description: The image file
+            required: true 
+            type: file 
+            fileTypes: [ 'image/jpeg']   
+    responses: 
+      200:
+        body: 
+          text/html:
+            description: A response            

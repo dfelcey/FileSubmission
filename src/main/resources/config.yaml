@@ -1,0 +1,13 @@
+http:
+  host: "0.0.0.0"
+  port: "8083"
+  base_path: ""
+  
+document:
+  client_id: "![T0V0aJloQQte0EeR/1MDVsFUh+TUkRTr/BAWaoSB8wGx0/Sgdpcvrw==]"
+  client_secret: "![3j3j8iP9a5zr8Epmlrf0U4xx0E+EDAUzI7fjmgVQhyRebKU6egf56w==]"
+  port: "![lQchelXWi0A=]"
+  base_path: "![fB+PP71ZnnM=]"
+  protocol: "![rt6HxmpxAyQ=]"
+  host: "![zpIFI9Zs5gbGovzBDORntZ3qztDCGTo+hTBNk1o6uzTnuHghPY2214DiN7qgxONB]"
+  keywords: "Example"
