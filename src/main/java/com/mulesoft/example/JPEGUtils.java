@@ -3,6 +3,9 @@ package com.mulesoft.example;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.util.Base64;
 
 import javax.imageio.IIOImage;
@@ -30,5 +33,23 @@ public class JPEGUtils {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static byte[] FileToBytes(File file)
+	{
+	    byte[] fileBytes = null;
+	    try
+	    {
+	        fileBytes = Files.readAllBytes(file.toPath());
+	    }
+	    catch (Exception ex) 
+	    {
+	        ex.printStackTrace();
+	    }
+	    return fileBytes;
+	}
+	
+	public static void main(String [] args) {
+		System.out.println(JPEGUtils.CompressJpegImage(FileToBytes(new File(args[0])), 0.5f));
 	}
 }
