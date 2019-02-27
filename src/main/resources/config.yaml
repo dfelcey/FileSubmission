@@ -11,3 +11,7 @@ document:
   protocol: "![rt6HxmpxAyQ=]"
   host: "![zpIFI9Zs5gbGovzBDORntZ3qztDCGTo+hTBNk1o6uzTnuHghPY2214DiN7qgxONB]"
   keywords: "Example"
+
+image:
+  comp_factor: "0.5"
+  

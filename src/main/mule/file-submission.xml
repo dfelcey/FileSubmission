@@ -134,9 +134,10 @@ output application/java
 import java!com::mulesoft::example::JPEGUtils
 
 var image = payload.parts.file1.content
-
+var comp_factor = p('image.comp_factor') as String { format: '#.##' } as Number 
+	
 ---
-JPEGUtils::CompressJpegImage(payload.parts.file1.content)]]></ee:set-variable>
+JPEGUtils::CompressJpegImage(image, comp_factor)]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="418107ab-ea3b-4404-bbe9-086f8145b229" />
