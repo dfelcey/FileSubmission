@@ -164,25 +164,36 @@ import * from dw::core::Binaries
 		</ee:transform>
 		<try doc:name="Try" doc:id="707f9025-3c7b-4511-b4eb-89632db2cacc" >
 			<document-processing-api:create-docuement doc:name="Create docuement" doc:id="9872781f-ed78-48c9-a156-fa15d0b0d217" config-ref="Document_Processing_API_Config" client-id="${secure::document.client_id}" client-secret="${secure::document.client_secret}" />
-			<ee:transform doc:name="Transform Message" doc:id="0ab4e661-a101-435d-afae-95dd569a4421" >
-				<ee:message >
+			<choice doc:name="Choice" doc:id="b62b63e9-33ea-4b30-a0e7-489a5a1df662" >
+				<when expression="#[attributes.statusCode == 201]">
+					<ee:transform doc:name="Transform Message" doc:id="0ab4e661-a101-435d-afae-95dd569a4421">
+				<ee:message>
 				</ee:message>
-				<ee:variables >
-					<ee:set-variable variableName="result" ><![CDATA[%dw 2.0
+				<ee:variables>
+					<ee:set-variable variableName="result"><![CDATA[%dw 2.0
 output application/java
 ---
 'Your document has been submitted']]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
+				</when>
+				<otherwise >
+					<ee:transform doc:name="Transform Message" doc:id="48173311-aa97-41eb-8122-0154a3f7602d" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="result" ><![CDATA[%dw 2.0
+output application/java
+---
+'Your document could not be processed. Please try again']]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</otherwise>
+			</choice>
 			<error-handler >
 				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fcfd690d-3f1e-46d1-bdbc-29528ded7c17" >
 					<ee:transform doc:name="Transform Message" doc:id="c3aa3ee0-fcc9-43fa-be01-f55b319660e6" >
 						<ee:message >
-							<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-{
-}]]></ee:set-payload>
 						</ee:message>
 						<ee:variables >
 							<ee:set-variable variableName="result" ><![CDATA[%dw 2.0
